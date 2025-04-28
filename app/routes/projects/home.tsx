@@ -5,6 +5,14 @@ import { useLoaderData } from "react-router";
 import { Button } from "~/components/ui/button";
 import type { Project } from "~/lib/graphql/project.gql";
 import { CommandLine } from "~/components/command-line";
+import { DocumentRenderer } from "@keystone-6/document-renderer";
+import { renderers } from "~/components/renderers";
+
+export function meta() {
+  const title = `projects | @sronnaim`;
+
+  return [{ title }];
+}
 
 export async function loader({ request }: Route.LoaderArgs) {
   const { redirect, sessionToken } = await ensureClientSession(request);
@@ -39,14 +47,26 @@ export default function Projects() {
 }
 
 function ProjectBlock({
-  project: { demoUrl, githubUrl, name, image },
+  project: { demoUrl, githubUrl, name, image, content, stacks },
 }: {
   project: Project;
 }) {
   return (
-    <article className="flex justify-between gap-4">
-      <div className="grow flex flex-col">
-        <h2 className="h-max grow">{name}</h2>
+    <article className="flex flex-col-reverse items-center md:flex-row md:max-h-300 md:items-stretch gap-4">
+      <div className="flex flex-col md:justify-between">
+        <h2 className="font-bold">{name}</h2>
+        <div className="md:grow overflow-auto">
+          <DocumentRenderer document={content.document} renderers={renderers} />
+        </div>
+        <p>
+          <span
+            className="font-symbols inline-flex translate-y-4 scale-125 text-rose-500"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            {"stacks"}
+          </span>
+          {"  " + stacks}
+        </p>
         <div className="flex bg-accent">
           {githubUrl && (
             <Button asChild className="rounded-none p-20 flex-1" variant="link">
@@ -64,7 +84,7 @@ function ProjectBlock({
           )}
         </div>
       </div>
-      <figure>
+      <figure className="shrink-0">
         <img
           className="w-300 h-300 object-cover"
           src={

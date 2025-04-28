@@ -1,7 +1,10 @@
 import { gql } from "@apollo/client/index.js";
+import type { Element } from "~/components/keystone/type";
 
 export type Project = {
-  content: Record<string, unknown>;
+  content: {
+    document: Element[];
+  };
   image: {
     publicUrl: string;
   } | null;
