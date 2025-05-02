@@ -3,13 +3,6 @@ import { useLoaderData, type LoaderFunctionArgs } from "react-router";
 import { getPosts } from "~/lib/graphql/post.server";
 import { ensureClientSession } from "~/lib/graphql/utils.server";
 
-export function meta() {
-  return [
-    { title: "@sronnaim" },
-    { content: "Welcome to my personal website!" },
-  ];
-}
-
 export async function loader({ request }: LoaderFunctionArgs) {
   const { redirect, sessionToken } = await ensureClientSession(request);
 
