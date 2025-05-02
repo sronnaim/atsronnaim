@@ -15,20 +15,23 @@ import { CommandLine } from "./components/command-line";
 
 export function meta({ error }: Route.MetaArgs): Route.MetaDescriptors {
   if (error) {
-    let title = 'shoot... | @sronnaim'
-    let name = 'Error'
-    let content = 'Unexpected error happened'
+    let title = "shoot... | @sronnaim";
+    let name = "Error";
+    let content = "Unexpected error happened";
 
     if (isRouteErrorResponse(error) && error.status === 404) {
-      title = 'not found | @sronnaim'
-      name = 'Not found'
-      content = 'Content or page not found'
+      title = "not found | @sronnaim";
+      name = "Not found";
+      content = "Content or page not found";
     }
 
-    return [ { title, name, content } ]
+    return [{ title, name, content }];
   }
 
-  return [{ title: '@sronnaim' }, { name: 'Home', content: 'Welcome to my personal portfolio website!' }]
+  return [
+    { title: "@sronnaim" },
+    { name: "Home", content: "Welcome to my personal portfolio website!" },
+  ];
 }
 
 export const links: Route.LinksFunction = () => [
